@@ -1,5 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const webpack = require('webpack')
 
 const isDev = process.env.NODE_ENV === 'development'
 
@@ -11,7 +12,7 @@ const config = {
     output: {
         filename: '[name].[hash].js',
         path: path.join(__dirname, '../dist'),
-        publicPath: '/public'
+        publicPath: '/public/' // public后加'/'对于编译没有影响，但是会影响到hmr
     },
     module: {
         rules: [
@@ -31,6 +32,12 @@ const config = {
 }
 
 if (isDev) {
+    config.entry = {
+        app: [
+            'react-hot-loader/patch', //
+            path.join(__dirname, '../client/app.js')
+        ]
+    }
     config.devServer = {
         host: "0.0.0.0",
         port: 6363,
@@ -38,11 +45,13 @@ if (isDev) {
         overlay: {
             errors: true
         },
+        hot: true,
         publicPath: '/public', //将所有 bundle 放入public文件夹
         historyApiFallback: {
             index: '/public/index.html' //复写index("host:port/")映射文件,默认是/index.html
         }
-    }
+    };
+    config.plugins.push(new webpack.HotModuleReplacementPlugin())
 }
 
 module.exports = config
