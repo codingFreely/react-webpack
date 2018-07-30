@@ -9,12 +9,16 @@
     "build:server": "webpack --config build/webpack.config.server.js",
     "clear": "rimraf dist",
     "build": "npm run clear && npm run build:client && npm run build:server",
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.config.client.js",
-    "server": "node server/server.js"
+    "dev:client": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.config.client.js",
+    "dev:ssr": "npm run dev:client && npm run start",
+    "start": "cross-env NODE_ENV=development node server/server.js"
   },
   "author": "lucky.zhang",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.18.0",
+    "http-proxy-middleware": "^0.18.0",
+    "memory-fs": "^0.4.1",
     "react": "^16.4.1",
     "react-dom": "^16.4.1"
   },

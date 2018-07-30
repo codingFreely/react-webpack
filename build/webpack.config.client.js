@@ -41,7 +41,7 @@ if (isDev) {
     config.devServer = {
         host: "0.0.0.0",
         port: 6363,
-        // contentBase: path.join(__dirname, '../dist'), //如果设置了contentBase devServer将会从硬盘里读取文件而不是使用webpack编译得到的文件
+        // contentBase: path.join(__dirname, '../dist'), //contentBase devServer是优先硬盘里读取文件而不是使用webpack编译得到的文件
         overlay: {
             errors: true
         },
