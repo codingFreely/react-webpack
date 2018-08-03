@@ -39,7 +39,7 @@ bundleCompiler.watch({}, (err, stats) => {
 })
 
 module.exports = function (app) {
-    app.use('/public', proxy({
+    app.use('/public', proxy({ //静态资源文件从devServer代理获取(:3333 热更新同样有效)
         target: 'http://localhost:6363'
     }))
 
