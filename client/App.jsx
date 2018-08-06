@@ -1,11 +1,9 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-export default class componentName extends Component {
-  render() {
+export default function componentName() {
     return (
-      <div>
-          this react app 11123 1
-      </div>
+        <div>
+            this react app 11123 1
+        </div>
     )
-  }
 }

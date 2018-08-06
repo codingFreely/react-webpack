@@ -5,19 +5,19 @@ const webpack = require('webpack')
 const isDev = process.env.NODE_ENV === 'development'
 
 const config = {
-    mode: "development",
+    mode: 'development',
     entry: {
-        app: path.join(__dirname, '../client/app.js') //absolute path
+        app: path.join(__dirname, '../client/app.js') //  absolute path
     },
     output: {
         filename: '[name].[hash].js',
         path: path.join(__dirname, '../dist'),
-        publicPath: '/public/' // public后加'/'对于编译没有影响，但是会影响到hmr
+        publicPath: '/public/' //  public后加'/'对于编译没有影响，但是会影响到hmr
     },
     module: {
         rules: [
             {
-                enforce:'pre', // 在真正编译之前执行
+                enforce: 'pre', //  在真正编译之前执行
                 test: /\.(jsx|js)$/,
                 loader: 'eslint-loader',
                 exclude: path.join(__dirname, '../node_modules')
@@ -26,8 +26,7 @@ const config = {
                 test: /\.(jsx|js)$/,
                 loader: 'babel-loader',
                 exclude: path.join(__dirname, '../node_modules')
-            },
-
+            }
         ]
     },
     plugins: [
@@ -45,16 +44,16 @@ if (isDev) {
         ]
     }
     config.devServer = {
-        host: "0.0.0.0",
+        host: '0.0.0.0',
         port: 6363,
-        // contentBase: path.join(__dirname, '../dist'), //contentBase devServer是优先硬盘里读取文件而不是使用webpack编译得到的文件
+        //  contentBase: path.join(__dirname, '../dist'), // contentBase devServer是优先硬盘里读取文件而不是使用webpack编译得到的文件
         overlay: {
             errors: true
         },
         hot: true,
-        publicPath: '/public', //将所有 bundle 放入public文件夹
+        publicPath: '/public', // 将所有 bundle 放入public文件夹
         historyApiFallback: {
-            index: '/public/index.html' //复写index("host:port/")映射文件,默认是/index.html
+            index: '/public/index.html' // 复写index("host:port/")映射文件,默认是/index.html
         }
     };
     config.plugins.push(new webpack.HotModuleReplacementPlugin())

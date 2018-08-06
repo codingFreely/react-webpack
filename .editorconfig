@@ -1,9 +1,10 @@
+#统一编辑器表现
 root = true
 
 [*]
 charset = utf-8
-indent_style = tab
-indent_size = 4
+indent_style = space #缩进style：比如可以是space空格符表示缩进，也可以是tab制表符表示缩进
+indent_size = 4 #制表符 tab = 几个space符
 end_of_line = lf
 insert_final_newline = true
 trim_trailing_whitespace = true
