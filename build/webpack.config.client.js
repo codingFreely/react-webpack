@@ -1,33 +1,20 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const webpack = require('webpack')
+const webpackMerge = require('webpack-merge')
+const baseConfig = require('./webpack.base.config')
 
 const isDev = process.env.NODE_ENV === 'development'
 
 const config = {
-    mode: 'development',
     entry: {
         app: path.join(__dirname, '../client/app.js') //  absolute path
     },
     output: {
-        filename: '[name].[hash].js',
-        path: path.join(__dirname, '../dist'),
-        publicPath: '/public/' //  public后加'/'对于编译没有影响，但是会影响到hmr
+        filename: '[name].[hash].js'
     },
     module: {
-        rules: [
-            {
-                enforce: 'pre', //  在真正编译之前执行
-                test: /\.(jsx|js)$/,
-                loader: 'eslint-loader',
-                exclude: path.join(__dirname, '../node_modules')
-            },
-            {
-                test: /\.(jsx|js)$/,
-                loader: 'babel-loader',
-                exclude: path.join(__dirname, '../node_modules')
-            }
-        ]
+
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -59,4 +46,4 @@ if (isDev) {
     config.plugins.push(new webpack.HotModuleReplacementPlugin())
 }
 
-module.exports = config
+module.exports = webpackMerge(baseConfig, config) // 第二个覆盖第一个参数

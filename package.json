@@ -11,7 +11,7 @@
     "clear": "rimraf dist",
     "build": "npm run clear && npm run build:client && npm run build:server",
     "dev:client": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.config.client.js",
-    "dev:ssrServer": "cross-env NODE_ENV=development node server/server.js",
+    "dev:ssrServer": "nodemon server/server.js",
     "start": "cross-env NODE_ENV=development node server/server.js",
     "lint": "eslint --ext .js --ext .jsx client/",
     "precommit": "npm run lint"
@@ -24,7 +24,8 @@
     "http-proxy-middleware": "^0.18.0",
     "memory-fs": "^0.4.1",
     "react": "^16.4.1",
-    "react-dom": "^16.4.1"
+    "react-dom": "^16.4.1",
+    "serve-favicon": "^2.5.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
@@ -46,10 +47,12 @@
     "express": "^4.16.3",
     "html-webpack-plugin": "^3.2.0",
     "husky": "^0.14.3",
+    "nodemon": "^1.18.3",
     "react-hot-loader": "^4.3.4",
     "rimraf": "^2.6.2",
     "webpack": "^4.16.1",
     "webpack-cli": "^3.1.0",
-    "webpack-dev-server": "^3.1.5"
+    "webpack-dev-server": "^3.1.5",
+    "webpack-merge": "^4.1.4"
   }
 }
