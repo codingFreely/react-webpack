@@ -6,6 +6,9 @@ module.exports = {
         path: path.join(__dirname, '../dist'),
         publicPath: '/public/' //  public后加'/'对于编译没有影响，但是会影响到hmr
     },
+    resolve: {
+        extensions: [".js", ".jsx"]
+    },
     module: {
         rules: [
             {
