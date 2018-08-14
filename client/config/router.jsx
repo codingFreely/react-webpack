@@ -7,8 +7,12 @@ import {
 import TopicDetail from '../views/topic-detail/index'
 import TopicList from '../views/topic-list/index'
 
-export default () => [
-    <Route path="/" render={() => <Redirect to="/list" />} exact />,
-    <Route path="/list" component={TopicList} />,
-    <Route path="/detail" component={TopicDetail} />,
-]
+export default function Routes() {
+    return (
+        <div>
+            <Route path="/" render={() => <Redirect to="/list" />} exact />
+            <Route path="/list" component={TopicList} />
+            <Route path="/detail" component={TopicDetail} />
+        </div>
+    )
+}
