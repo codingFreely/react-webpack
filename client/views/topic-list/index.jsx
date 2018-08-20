@@ -8,7 +8,7 @@ export default class TopicList extends Component {
     render() {
         return (
             <div>
-                this is topic list 111
+                { [0, 0, 0].fill(2).map(item => <div>{ item }</div>) }
             </div>
         )
     }

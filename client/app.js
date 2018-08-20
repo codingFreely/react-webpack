@@ -3,6 +3,8 @@ import ReactDom from 'react-dom'
 import { AppContainer } from 'react-hot-loader' // eslint-disable-line
 import { BrowserRouter } from 'react-router-dom'
 
+import 'babel-polyfill'
+
 import App from './views/App.jsx' // eslint-disable-line
 
 const root = document.getElementById('root')
