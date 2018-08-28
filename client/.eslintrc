@@ -17,6 +17,8 @@
 		"react/jsx-indent": [0],
         "no-tabs": [0],
         "no-trailing-spaces": [0],
-        "react/jsx-one-expression-per-line": [0]
+        "react/jsx-one-expression-per-line": [0],
+        "react/prop-types": [0],
+        "no-console": [0]
     }
 }
