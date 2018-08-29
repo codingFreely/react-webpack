@@ -11,9 +11,7 @@ app.use(serveFavicon(path.join(__dirname, '../favicon.ico')))
 
 if (!isDev) {
     const serverEntry = require('../dist/server-entry.js').default
-
     app.use('/public', express.static(path.join(__dirname, '../dist')))
-
     app.get('/', function (req, res) {
         let indexTemplete = fs.readFileSync(path.join(__dirname, '../dist/index.html'), 'utf8')
         let appString = reactSSR.renderToString(serverEntry)

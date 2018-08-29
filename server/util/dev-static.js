@@ -5,21 +5,10 @@ const path = require('path')
 const MemoryFs = require('memory-fs')
 const proxy = require('http-proxy-middleware')
 
-const getTempelte = function () {
-    return new Promise((resolve, reject) => {
-        axios.get('http://localhost:6363/public/index.html') // 请求client:devServer的index
-            .then(res => {
-                resolve(res.data)
-            })
-            .catch(reject)
-    })
-}
-
 // 获取server 渲染bundle文本
 let serverBundle
 
 const ModuleClass = module.constructor
-
 const config = require('../../build/webpack.config.server')
 const mfs = new MemoryFs()
 const bundleCompiler = webpack(config) // nodejs执行webpack
@@ -37,6 +26,16 @@ bundleCompiler.watch({}, (err, stats) => {
     m._compile(bundleStream, 'server-srr-content.js') // 必须命名文件名称(模块名)
     serverBundle = m.exports.default
 })
+
+const getTempelte = function () {
+    return new Promise((resolve, reject) => {
+        axios.get('http://localhost:6363/public/index.html') // 请求client:devServer的index
+            .then(res => {
+                resolve(res.data)
+            })
+            .catch(reject)
+    })
+}
 
 module.exports = function (app) {
     app.use('/public', proxy({ // 静态资源文件从devServer代理获取(:3333 热更新同样有效)
