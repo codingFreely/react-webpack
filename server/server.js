@@ -9,6 +9,9 @@ const isDev = process.env.NODE_ENV === 'development'
 
 app.use(serveFavicon(path.join(__dirname, '../favicon.ico')))
 
+app.use('/api/user', require('./util/handle-login'))
+app.use('/api', require('./util/proxy'))
+
 if (!isDev) {
     const serverEntry = require('../dist/server-entry.js').default
     app.use('/public', express.static(path.join(__dirname, '../dist')))

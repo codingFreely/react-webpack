@@ -41,6 +41,9 @@ if (isDev) {
         publicPath: '/public', // 将所有 bundle 放入public文件夹
         historyApiFallback: {
             index: '/public/index.html' // 复写index("host:port/")映射文件,默认是/index.html
+        },
+        proxy: {
+            '/api': 'http://localhost:3333'
         }
     };
     config.plugins.push(new webpack.HotModuleReplacementPlugin())
