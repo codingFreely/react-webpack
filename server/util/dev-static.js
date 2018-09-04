@@ -6,7 +6,7 @@ const MemoryFs = require('memory-fs')
 const proxy = require('http-proxy-middleware')
 
 // 获取server 渲染bundle文本
-let serverBundle
+let serverBundle, createStoreMap
 
 const ModuleClass = module.constructor
 const config = require('../../build/webpack.config.server')
@@ -25,6 +25,7 @@ bundleCompiler.watch({}, (err, stats) => {
     const m = new ModuleClass()
     m._compile(bundleStream, 'server-srr-content.js') // 必须命名文件名称(模块名)
     serverBundle = m.exports.default
+    createStoreMap = m.exports.createStoreMap
 })
 
 const getTempelte = function () {

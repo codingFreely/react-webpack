@@ -6,7 +6,9 @@ import axios from 'axios'
 export default class TopicList extends Component {
     componentDidMount() {
         // do something
-        axios.get('/api/v1/topics')
+        axios.post('/api/user/login', {
+            accessToken: '6b60b457-a9bc-4b90-be06-be63e9399caa',
+        })
     }
 
     render() {

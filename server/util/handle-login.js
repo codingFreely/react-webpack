@@ -27,7 +27,7 @@ router.post('/login', function(req, res, next) {
         if (err.response) {
             res.json({
                 success: false,
-                data: err.response
+                data: err.response.data
             })
         } else {
             next(err)

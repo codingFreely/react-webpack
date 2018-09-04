@@ -7,13 +7,13 @@ import { Provider } from 'mobx-react'
 import 'babel-polyfill'
 
 import App from './views/App.jsx' // eslint-disable-line
-import appState from './store/app-state'
+import AppState from './store/app-state'
 
 const root = document.getElementById('root')
 const render = (Component) => {
     ReactDom.hydrate(
         <AppContainer>
-            <Provider appState={appState}>
+            <Provider appState={new AppState()}>
                 <BrowserRouter>
                     <Component />
                 </BrowserRouter>
