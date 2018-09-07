@@ -4,6 +4,9 @@ const webpack = require('webpack')
 const path = require('path')
 const MemoryFs = require('memory-fs')
 const proxy = require('http-proxy-middleware')
+const reactAsyncBootstrapper = require('react-async-bootstrapper')
+const serialize = require('serialize-javascript')
+const ejs = require('ejs')
 
 // 获取server 渲染bundle文本
 let serverBundle, createStoreMap
@@ -30,12 +33,19 @@ bundleCompiler.watch({}, (err, stats) => {
 
 const getTempelte = function () {
     return new Promise((resolve, reject) => {
-        axios.get('http://localhost:6363/public/index.html') // 请求client:devServer的index
+        axios.get('http://localhost:6363/public/server.ejs') // 请求client:devServer的编译的server.ejs
             .then(res => {
                 resolve(res.data)
             })
             .catch(reject)
     })
+}
+
+const getInitalState = function (stores) {
+    return Object.keys(stores).reduce((result, storeName) => {
+        result[storeName] = stores[storeName].toJson()
+        return result
+    }, {})
 }
 
 module.exports = function (app) {
@@ -45,8 +55,27 @@ module.exports = function (app) {
 
     app.get('*', function (req, res) {
         getTempelte().then((tempelte) => {
-            let content = ReactDomServer.renderToString(serverBundle)
-            res.send(tempelte.replace('<!-- app -->', content))
+            const routerContext = {}
+            const store= createStoreMap()
+            const app = serverBundle(store, routerContext, req.url)
+            // 使用reactAsyncBootstrapper在react render之前先预加载初始化数据
+            reactAsyncBootstrapper(app).then(() => {
+                let content = ReactDomServer.renderToString(app)
+                // if routerContext.url is not undefiend, Indicates that the current request routing will be redirected at the front end
+                if (routerContext.url) {
+                    res.status(302).setHeader('Location', routerContext.url) // response 302 to redirect at server
+                    res.end()
+                    return
+                }
+
+                const indexHtml = ejs.render(tempelte, {
+                    appString: content,
+                    initalState: serialize(getInitalState(store)),
+                })
+
+                res.send(indexHtml)
+                // res.send(tempelte.replace('<!-- app -->', content))
+            })
         })
     })
 }

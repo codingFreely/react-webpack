@@ -6,6 +6,11 @@ import {
 } from 'mobx'
 
 export default class AppState {
+    constructor({ count, name } = { count: 1, name: 'nike' }) {
+        this.count = count
+        this.name = name
+    }
+
     @observable count = 1
 
     @observable name = 'nike'
@@ -16,5 +21,12 @@ export default class AppState {
 
     @action add() {
         this.count += 1
+    }
+
+    toJson() {
+        return {
+            count: this.count,
+            name: this.name,
+        }
     }
 }

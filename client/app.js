@@ -9,11 +9,13 @@ import 'babel-polyfill'
 import App from './views/App.jsx' // eslint-disable-line
 import AppState from './store/app-state'
 
+const initalState = window.__INITAL__STATE__ || {} // eslint-disable-line
+
 const root = document.getElementById('root')
 const render = (Component) => {
     ReactDom.hydrate(
         <AppContainer>
-            <Provider appState={new AppState()}>
+            <Provider appState={new AppState(initalState.appState)}>
                 <BrowserRouter>
                     <Component />
                 </BrowserRouter>
