@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
 import axios from 'axios'
+import Helmet from 'react-helmet'
 
 @inject('appState') @observer
 export default class TopicList extends Component {
@@ -26,6 +27,10 @@ export default class TopicList extends Component {
 
         return (
             <div>
+                <Helmet>
+                    <title>this is topic list</title>
+                    <meta name="description" content="this is description" />
+                </Helmet>
                 <div>{appState.msg}</div>
             </div>
         )
