@@ -1,16 +1,13 @@
 const axios = require('axios')
-const ReactDomServer = require('react-dom/server')
 const webpack = require('webpack')
 const path = require('path')
 const MemoryFs = require('memory-fs')
 const proxy = require('http-proxy-middleware')
-const reactAsyncBootstrapper = require('react-async-bootstrapper')
-const serialize = require('serialize-javascript')
-const ejs = require('ejs')
-const Helmet = require('react-helmet').default
+
+const serverRender = require('./server-render')
 
 // 获取server 渲染bundle文本
-let serverBundle, createStoreMap
+let bundle
 
 const NativeModule = require('module')
 const vm = require('vm')
@@ -46,8 +43,7 @@ bundleCompiler.watch({}, (err, stats) => { // 自动watch文件变化，重新co
     // m._compile(bundleStream, 'server-srr-content.js') // 必须命名文件名称(模块名)
 
     const m = getModuleFromStream(bundleStream, 'server-srr-content.js')
-    serverBundle = m.exports.default
-    createStoreMap = m.exports.createStoreMap
+    bundle = m.exports
 })
 
 const getTempelte = function () {
@@ -60,47 +56,14 @@ const getTempelte = function () {
     })
 }
 
-const getInitalState = function (stores) {
-    return Object.keys(stores).reduce((result, storeName) => {
-        result[storeName] = stores[storeName].toJson()
-        return result
-    }, {})
-}
-
 module.exports = function (app) {
     app.use('/public', proxy({ // 静态资源文件从devServer代理获取(:3333 热更新同样有效)
         target: 'http://localhost:6363'
     }))
 
-    app.get('*', function (req, res) {
-        getTempelte().then((tempelte) => {
-            const routerContext = {}
-            const store= createStoreMap()
-            const app = serverBundle(store, routerContext, req.url)
-            // 使用reactAsyncBootstrapper在react render之前先预加载初始化数据
-            reactAsyncBootstrapper(app).then(() => {
-                let content = ReactDomServer.renderToString(app)
-                // if routerContext.url is not undefiend, Indicates that the current request routing will be redirected at the front end
-                //在服务器端重定向对seo有好处，如果在前端重定向，爬虫获取到的是未跳转前的内容，而不是跳转后的
-                if (routerContext.url) {
-                    res.status(302).setHeader('Location', routerContext.url) // response 302 to redirect at server
-                    res.end()
-                    return
-                }
-
-                const helmet = Helmet.rewind()
-                const indexHtml = ejs.render(tempelte, {
-                    appString: content,
-                    initalState: serialize(getInitalState(store)),
-                    meta: helmet.meta.toString(), // seo
-                    title: helmet.title.toString(), // seo
-                    style: helmet.style.toString(),
-                    link: helmet.link.toString()
-                })
-
-                res.send(indexHtml)
-                // res.send(tempelte.replace('<!-- app -->', content))
-            })
+    app.get('*', function (req, res, next) {
+        getTempelte().then((templete) => {
+            serverRender(bundle, templete, req, res).catch(next)
         })
     })
 }

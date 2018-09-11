@@ -5,7 +5,7 @@ const baseUrl = 'https://cnodejs.org/api/v1'
 
 router.post('/login', function(req, res, next) {
     axios.post(`${baseUrl}/accesstoken`, {
-        accessToken: req.body.accessToken
+        accesstoken: req.body.accessToken
     })
     .then(resp => {
         if (resp.status === 200 && resp.data.success) {

@@ -12,9 +12,9 @@
     "build": "npm run clear && npm run build:client && npm run build:server",
     "dev:client": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.config.client.js",
     "dev:ssrServer": "nodemon server/server.js",
-    "start": "cross-env NODE_ENV=development node server/server.js",
     "lint": "eslint --ext .js --ext .jsx client/",
-    "precommit": "npm run lint"
+    "precommit": "npm run lint",
+    "start": "node server/server.js"
   },
   "author": "lucky.zhang",
   "license": "ISC",
