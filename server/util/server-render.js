@@ -3,6 +3,7 @@ const reactAsyncBootstrapper = require('react-async-bootstrapper')
 const serialize = require('serialize-javascript')
 const ejs = require('ejs')
 const Helmet = require('react-helmet').default
+const SheetsRegistry = require('react-jss/lib/jss').SheetsRegistry
 
 const getInitalState = function (stores) {
     return Object.keys(stores).reduce((result, storeName) => {
@@ -17,7 +18,8 @@ module.exports = function (bundle, templete, req, res) {
         const createStoreMap = bundle.createStoreMap
         const serverBundle = bundle.default
         const store = createStoreMap()
-        const app = serverBundle(store, routerContext, req.url)
+        const sheetsRegistry = new SheetsRegistry()
+        const app = serverBundle(store, routerContext, req.url, sheetsRegistry)
         // 使用reactAsyncBootstrapper在react render之前先预加载初始化数据
         reactAsyncBootstrapper(app).then(() => {
             let content = ReactDomServer.renderToString(app)
@@ -29,14 +31,15 @@ module.exports = function (bundle, templete, req, res) {
                 return
             }
 
-            const helmet = Helmet.rewind()
+            const helmet = Helmet.rewind() // 获取组件中helmet的配置
             const indexHtml = ejs.render(templete, {
                 appString: content,
                 initalState: serialize(getInitalState(store)),
                 meta: helmet.meta.toString(), // seo
                 title: helmet.title.toString(), // seo
                 style: helmet.style.toString(),
-                link: helmet.link.toString()
+                link: helmet.link.toString(),
+                css: sheetsRegistry.toString()
             })
 
             res.send(indexHtml)

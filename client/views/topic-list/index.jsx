@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
 import axios from 'axios'
 import Helmet from 'react-helmet'
+import Button from '@material-ui/core/Button';
 
 @inject('appState') @observer
 export default class TopicList extends Component {
@@ -32,6 +33,9 @@ export default class TopicList extends Component {
                     <meta name="description" content="this is description" />
                 </Helmet>
                 <div>{appState.msg}</div>
+                <Button variant="contained" color="primary">
+                    Primary
+                </Button>
             </div>
         )
     }

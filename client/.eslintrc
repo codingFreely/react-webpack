@@ -19,6 +19,8 @@
         "no-trailing-spaces": [0],
         "react/jsx-one-expression-per-line": [0],
         "react/prop-types": [0],
-        "no-console": [0]
+        "no-console": [0],
+        "func-names": [0],
+        "no-debugger": [0]
     }
 }

@@ -67,5 +67,12 @@ redux有一套严格的模式，而mobx简单没有这么多概念
 
 封装function，提取不同的作为参数(可以与runtime得到的变量，或者是callback)，封装相同的逻辑处理以及与runtime无关的依赖引用(高耦合)
 
+react16新特性
+1.error boundary 提供了一个componentDidCatch钩子补货error，在钩子函数里可以处理，展示error信息
+2.new render return types 以前只能是(<div></div>)，现在可以是[]或者string
+3.portals 提供了一个将content插入指定节点的能力，通过ReactDOM.createPortal()方法。以前的render方法都是将return的content插入当前组件上下文
+4.better server-side rendering 
 
-
+4 9 17 18 28 29 13
+7 14 17 21 25 31 9
+3 8 20 23 26 31 9
