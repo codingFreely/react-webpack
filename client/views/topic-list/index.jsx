@@ -4,6 +4,8 @@ import axios from 'axios'
 import Helmet from 'react-helmet'
 import Button from '@material-ui/core/Button';
 
+import Container from '../../layout/container'
+
 @inject('appState') @observer
 export default class TopicList extends Component {
     componentDidMount() {
@@ -27,7 +29,7 @@ export default class TopicList extends Component {
         const { appState } = this.props
 
         return (
-            <div>
+            <Container>
                 <Helmet>
                     <title>this is topic list</title>
                     <meta name="description" content="this is description" />
@@ -36,7 +38,7 @@ export default class TopicList extends Component {
                 <Button variant="contained" color="primary">
                     Primary
                 </Button>
-            </div>
+            </Container>
         )
     }
 }

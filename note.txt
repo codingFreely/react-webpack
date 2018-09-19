@@ -75,3 +75,4 @@ react16新特性
 
 css：
 flex-grow可以让只有一个子元素时撑满整个父元素，或者在多个子元素得时候让某一个子元素把剩余width撑满
+customized theme 时， secondary 仍然取色默认500而不是官方文档上说得的以A开头，不知为何

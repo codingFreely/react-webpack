@@ -16,7 +16,6 @@ const styles = {
     grow: {
         flexGrow: 1,
     }
-
 }
 
 class Navbar extends React.Component {

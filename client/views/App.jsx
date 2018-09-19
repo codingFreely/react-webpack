@@ -1,7 +1,7 @@
 import React from 'react'
 
 import Routes from '../config/router'
-import Navbar from '../layout/Navbar'
+import Navbar from '../layout/navbar'
 
 export default function App() {
     return [
