@@ -73,6 +73,5 @@ react16新特性
 3.portals 提供了一个将content插入指定节点的能力，通过ReactDOM.createPortal()方法。以前的render方法都是将return的content插入当前组件上下文
 4.better server-side rendering 
 
-4 9 17 18 28 29 13
-7 14 17 21 25 31 9
-6 13 16 20 29 33 16
+css：
+flex-grow可以让只有一个子元素时撑满整个父元素，或者在多个子元素得时候让某一个子元素把剩余width撑满

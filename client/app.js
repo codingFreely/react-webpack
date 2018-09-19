@@ -4,24 +4,16 @@ import { AppContainer } from 'react-hot-loader' // eslint-disable-line
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'mobx-react'
 import JssProvider from 'react-jss/lib/JssProvider'
-import { MuiThemeProvider, createMuiTheme, createGenerateClassName } from '@material-ui/core/styles';
-import green from '@material-ui/core/colors/green';
-import red from '@material-ui/core/colors/red';
+import { MuiThemeProvider, createGenerateClassName } from '@material-ui/core/styles';
 
 import 'babel-polyfill'
 
+import theme from './customization/theme'
 import App from './views/App.jsx' // eslint-disable-line
 import AppState from './store/app-state'
 
 const initalState = window.__INITAL__STATE__ || {} // eslint-disable-line
 
-const theme = createMuiTheme({
-    palette: {
-        primary: green,
-        accent: red,
-        type: 'light',
-    },
-})
 // Create a new class name generator.
 const generateClassName = createGenerateClassName();
 

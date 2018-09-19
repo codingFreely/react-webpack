@@ -5,11 +5,10 @@ import { Provider, useStaticRendering } from 'mobx-react'
 import JssProvider from 'react-jss/lib/JssProvider'
 import {
     MuiThemeProvider,
-    createMuiTheme,
     createGenerateClassName,
 } from '@material-ui/core/styles'
-import green from '@material-ui/core/colors/green'
-import red from '@material-ui/core/colors/red'
+
+import theme from './customization/theme'
 
 import App from './views/App.jsx' // eslint-disable-line
 import { createStoreMap } from './store/store'
@@ -21,14 +20,6 @@ useStaticRendering(true)
 export default (store, routerContext, url, sheetsRegistry) => {
     // Create a sheetsManager instance.
     const sheetsManager = new Map();
-
-    const theme = createMuiTheme({
-        palette: {
-            primary: green,
-            accent: red,
-            type: 'light',
-        },
-    })
 
     // Create a new class name generator.
     const generateClassName = createGenerateClassName()
