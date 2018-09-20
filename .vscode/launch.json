@@ -10,7 +10,8 @@
       "name": "Launch Program",
       "program": "${workspaceFolder}/server/server.js",
       "env": {
-          "NODE_ENV": "development"
+          "NODE_ENV": "development",
+          "WATCH_FIlE": "false" //在devlopment下是否启动webpack bundle并且watch file
       }
     }
   ]

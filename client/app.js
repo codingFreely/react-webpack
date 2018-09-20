@@ -12,6 +12,8 @@ import theme from './customization/theme'
 import App from './views/App.jsx' // eslint-disable-line
 import AppState from './store/app-state'
 
+const env = process.env.NODE_ENV
+
 const initalState = window.__INITAL__STATE__ || {} // eslint-disable-line
 
 // Create a new class name generator.
@@ -19,7 +21,9 @@ const generateClassName = createGenerateClassName();
 
 const root = document.getElementById('root')
 const render = (Component) => {
-    ReactDom.hydrate(
+    const renderFn = env === 'development' ? ReactDom.render : ReactDom.hydrate
+
+    renderFn(
         <AppContainer>
             <Provider appState={new AppState(initalState.appState)}>
                 <BrowserRouter>

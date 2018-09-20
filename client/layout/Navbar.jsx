@@ -51,7 +51,7 @@ class Navbar extends React.Component {
                         <Typography variant="title" color="inherit" className={classes.grow}>
                             JNode
                         </Typography>
-                        <Button variant="raised" color="secondary" onClick={this.onCreateButtonClick}>
+                        <Button variant="raised" color="primary" onClick={this.onCreateButtonClick}>
                             新建话题
                         </Button>
                         <Button color="inherit" onClick={this.onLoginClick}>

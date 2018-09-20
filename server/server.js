@@ -8,6 +8,7 @@ const session = require('express-session')
 
 const app = express()
 const isDev = process.env.NODE_ENV === 'development'
+const launchBundle = process.env.WATCH_FIlE
 
 const serverRender = require('./util/server-render')
 
@@ -38,8 +39,10 @@ if (!isDev) {
         // res.send(indexTemplete.replace('<!-- app -->', appString))
     })
 } else {
-    const devStatic = require('./util/dev-static')
-    devStatic(app)
+    if (launchBundle === 'true') {
+        const devStatic = require('./util/dev-static')
+        devStatic(app)
+    }
 }
 // error handler
 app.use((err, req, res, next) => {
