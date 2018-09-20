@@ -2,12 +2,23 @@ import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
 import axios from 'axios'
 import Helmet from 'react-helmet'
-import Button from '@material-ui/core/Button';
+import Tabs from '@material-ui/core/Tabs'
+import Tab from '@material-ui/core/Tab'
 
 import Container from '../../layout/container'
 
+import ListItem from './list-item'
+
 @inject('appState') @observer
 export default class TopicList extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            tabValue: 0
+        }
+        this.handleChange = this.handleChange.bind(this)
+    }
+
     componentDidMount() {
         // do something
         axios.post('/api/user/login', {
@@ -25,8 +36,15 @@ export default class TopicList extends Component {
         })
     }
 
+    handleChange(e, v) {
+        this.setState({
+            tabValue: v
+        })
+    }
+
     render() {
-        const { appState } = this.props
+        // const { appState } = this.props
+        const { tabValue } = this.state
 
         return (
             <Container>
@@ -34,10 +52,15 @@ export default class TopicList extends Component {
                     <title>this is topic list</title>
                     <meta name="description" content="this is description" />
                 </Helmet>
-                <div>{appState.msg}</div>
-                <Button variant="contained" color="primary">
-                    Primary
-                </Button>
+                <Tabs value={tabValue} onChange={this.handleChange}>
+                    <Tab label="分享" />
+                    <Tab label="工作" />
+                    <Tab label="全部" />
+                    <Tab label="问答" />
+                    <Tab label="精品" />
+                    <Tab label="测试" />
+                </Tabs>
+                <ListItem topic={{ }} />
             </Container>
         )
     }
