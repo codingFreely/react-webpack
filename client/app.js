@@ -15,6 +15,7 @@ import AppState from './store/app-state'
 const env = process.env.NODE_ENV
 
 const initalState = window.__INITAL__STATE__ || {} // eslint-disable-line
+const initStore = new AppState(initalState.appState)
 
 // Create a new class name generator.
 const generateClassName = createGenerateClassName();
@@ -25,7 +26,7 @@ const render = (Component) => {
 
     renderFn(
         <AppContainer>
-            <Provider appState={new AppState(initalState.appState)}>
+            <Provider appState={initStore}>
                 <BrowserRouter>
                     <JssProvider generateClassName={generateClassName}>
                         <MuiThemeProvider theme={theme}>

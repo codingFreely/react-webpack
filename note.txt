@@ -4,7 +4,9 @@
 
 解决方案：服务器端渲染
 
-render方法传入的第一参数是一个元素对象，import 组件得到普通js对象，<component />这样是元素对象(元素对象当然也是js对象)
+render方法传入的第一参数是一个元素对象
+import 组件得到普通js对象,class或者function（类）
+<component />这样是元素对象，元素对象当然也是js对象（类的实例）
 
 *前端技术选型
 
@@ -73,6 +75,19 @@ react16新特性
 3.portals 提供了一个将content插入指定节点的能力，通过ReactDOM.createPortal()方法。以前的render方法都是将return的content插入当前组件上下文
 4.better server-side rendering 
 
-css：
-flex-grow可以让只有一个子元素时撑满整个父元素，或者在多个子元素得时候让某一个子元素把剩余width撑满
-customized theme 时， secondary 仍然取色默认500而不是官方文档上说得的以A开头，不知为何
+other：
+1.flex-grow可以让只有一个子元素时撑满整个父元素，或者在多个子元素得时候让某一个子元素把剩余width撑满
+display:flex, align-item:center 让子元素垂直居中
+2.customized theme 时， secondary 仍然取色默认500而不是官方文档上说得的以A开头，不知为何
+3.tagName/+tab补全为单标签
+4.文件命令全小写，组件命名首字母大写
+/**/
+5.要习惯把一个页面拆分为容器组件文件和多个UI组件文件。如果单个UI组件文件内部还需要声明更细化的UI组件，就在文件内部声明
+如果页面复杂且存在耦合度低的情况，还可根据耦合度拆分，但是这种情况较少
+1.UI组件：只负责页面的渲染
+
+2.容器组件：只负责业务逻辑和数据的处理
+
+3.无状态组件(pure function)：把UI组件用函数表示（可以省去生命周期函数，优化代码）
+/**/
+6.组件标签添加onClick不会绑定事件，元素标签才会

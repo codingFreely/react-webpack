@@ -17,6 +17,7 @@ export default class TopicList extends Component {
             tabValue: 0
         }
         this.handleChange = this.handleChange.bind(this)
+        this.itemOnClick = this.itemOnClick.bind(this)
     }
 
     componentDidMount() {
@@ -41,10 +42,23 @@ export default class TopicList extends Component {
             tabValue: v
         })
     }
+    /* eslint-disable */
+    itemOnClick(){
+        console.log(111111111111111111)
+    }
+    /* eslint-enable */
 
     render() {
         // const { appState } = this.props
         const { tabValue } = this.state
+        const topic = {
+            title: 'this is title',
+            username: 'nike',
+            reply_count: 20,
+            visit_count: 30,
+            create_at: 'asdff',
+            tab: 'share'
+        }
 
         return (
             <Container>
@@ -60,7 +74,7 @@ export default class TopicList extends Component {
                     <Tab label="精品" />
                     <Tab label="测试" />
                 </Tabs>
-                <ListItem topic={{ }} />
+                <ListItem topic={topic} onClick={this.itemOnClick} />
             </Container>
         )
     }
