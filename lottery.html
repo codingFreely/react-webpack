@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <script>
+        function parseDom(arg) {
+
+        　　 var objE = document.createElement("div");
+
+        　　 objE.innerHTML = arg;
+
+        　　 return objE.childNodes;
+
+        };
+
+        function get500WanFn(num,n){
+            let arr = getArr(num)
+            let rst = []
+            for(var i=0; i<n;i++){
+                rst[i] = getSingleRandomNum(arr)
+            }
+            return rst.sort((pre,next)=>{
+                        return pre>next
+                    })
+        }
+
+        function getArr(num){
+            let arr = [];
+            for(var i = 0;i<num;i++){
+                arr[i] = i+1
+            }
+            return arr
+        }
+
+        function getSingleRandomNum(arr){
+            let len = arr.length;
+            let randomNum = Math.floor(Math.random()*len)
+            let rst = arr[randomNum]
+            arr.splice(randomNum,1)
+            return rst
+        }
+    </script>
+    <script>
+        const five百万 = {
+            daletou:{
+                red:[],
+                blue:[]
+            },
+            shuangseqiu:{
+                red:[],
+                blue:[]
+            }
+        }
+
+
+        let renderDaletou = (data) =>{
+            let daletouRed = document.getElementById('daletouRed')
+            let datetouBlue = document.getElementById('daletouBlue')
+            daletouRed.innerHTML = getItemListEles(data.red)
+            datetouBlue.innerHTML = getItemListEles(data.blue)
+        }
+
+        let renderShuangseqiu = (data) =>{
+            let shuangseqiuRed = document.getElementById('shuangseqiuRed')
+            let shuangseqiuBlue = document.getElementById('shuangseqiuBlue')
+            shuangseqiuRed.innerHTML = getItemListEles(data.red)
+            shuangseqiuBlue.innerHTML = getItemListEles(data.blue)
+        }
+
+        let getItemListEles = (arr) =>{
+            let rst = []
+            for(var i = 0; i<arr.length; i++){
+                rst.push(`<span class="item">${arr[i]}</span>`)
+            }
+            return rst.join(" ")
+        }
+
+        let daletou = ()=>{
+            five百万.daletou.red = get500WanFn(35,5)
+            five百万.daletou.blue = get500WanFn(12,2)
+            renderDaletou(five百万.daletou)
+        }
+
+        let shuangseqiu = () =>{
+            five百万.shuangseqiu.red = get500WanFn(33,6)
+            five百万.shuangseqiu.blue = get500WanFn(16,1)
+            renderShuangseqiu(five百万.shuangseqiu)
+        }
+    </script>
+</head>
+<body>
+    <div>
+        <div id="shuangseqiu">
+            双色球：
+            <span id="shuangseqiuRed" class="red">
+                <span class="item">500万</span>
+                <span class="item">500万</span>
+                <span class="item">500万</span>
+                <span class="item">500万</span>
+                <span class="item">500万</span>
+                <span class="item">500万</span>
+            </span>
+            <span id="shuangseqiuBlue" class="blue">
+                <span class="item">500万</span>
+            </span>
+            <button onclick="shuangseqiu()">双色球</button>
+        </div>
+        <div style="height: 20px;"></div>
+        <div id="daletou">
+            大乐透：
+            <span id="daletouRed" class="red">
+                <span class="item">500万</span>
+                <span class="item">500万</span>
+                <span class="item">500万</span>
+                <span class="item">500万</span>
+                <span class="item">500万</span>
+            </span>
+            <span id="daletouBlue" class="blue">
+                <span class="item">500万</span>
+                <span class="item">500万</span>
+            </span>
+            <button onclick="daletou()">大乐透</button>
+        </div>
+
+    </div>
+    <style>
+        .red .item{
+            border: 1px solid red;
+            padding: 5px;
+        }
+        .blue .item{
+            border: 1px solid blue;
+            padding: 5px;
+        }
+        .item{
+            display: inline-block;
+            width: 40px;
+            vertical-align: middle;
+            text-align: center
+        }
+    </style>
+</body>
+</html>
