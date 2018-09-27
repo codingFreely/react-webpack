@@ -91,6 +91,7 @@ display:flex, align-item:center 让子元素垂直居中
 3.无状态组件(pure function)：把UI组件用函数表示（可以省去生命周期函数，优化代码）
 /**/
 6.组件标签添加onClick不会绑定事件，元素标签才会
+7.colgroup标签
 
 7 8 12 18 22 33 9
 6 8 11 20 21 24 5
