@@ -92,6 +92,7 @@ display:flex, align-item:center 让子元素垂直居中
 /**/
 6.组件标签添加onClick不会绑定事件，元素标签才会
 7.colgroup标签
+8.注意热更新会重新渲染组件，触发组件的constuctor, 钩子 ,render方法
 
 7 8 12 18 22 33 9
 6 8 11 20 21 24 5

@@ -1,15 +1,21 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
-import axios from 'axios'
 import Helmet from 'react-helmet'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
+import List from '@material-ui/core/List'
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import Container from '../../layout/container'
 
 import ListItem from './list-item'
 
-@inject('appState') @observer
+@inject(stores => {
+    return {
+        appState: stores.appState,
+        topicStore: stores.topicStore
+    }
+}) @observer
 export default class TopicList extends Component {
     constructor(props) {
         super(props)
@@ -22,9 +28,11 @@ export default class TopicList extends Component {
 
     componentDidMount() {
         // do something
-        axios.post('/api/user/login', {
-            accessToken: '26dfbd94-7766-43e0-baf0-6c69468e5b00',
-        })
+        // axios.post('/api/user/login', {
+        //     accessToken: '26dfbd94-7766-43e0-baf0-6c69468e5b00',
+        // })
+        const { topicStore } = this.props
+        topicStore.fetchTopics()
     }
 
     bootstrap() {
@@ -43,23 +51,24 @@ export default class TopicList extends Component {
         })
     }
     /* eslint-disable */
-    itemOnClick(){
-        console.log(111111111111111111)
+    itemOnClick() {
+        console.log(111111111233111111111)
     }
     /* eslint-enable */
 
     render() {
         // const { appState } = this.props
         const { tabValue } = this.state
-        const topic = {
-            title: 'this is title',
-            username: 'nike',
-            reply_count: 20,
-            visit_count: 30,
-            create_at: 'asdff',
-            tab: 'share'
-        }
-
+        // const topic = {
+        //     title: 'this is title',
+        //     username: 'nike',
+        //     reply_count: 20,
+        //     visit_count: 30,
+        //     create_at: 'asdff',
+        //     tab: 'share'
+        // }
+        const { topicStore } = this.props
+        const { syncing, topics } = topicStore
         return (
             <Container>
                 <Helmet>
@@ -74,7 +83,21 @@ export default class TopicList extends Component {
                     <Tab label="精品" />
                     <Tab label="测试" />
                 </Tabs>
-                <ListItem topic={topic} onClick={this.itemOnClick} />
+                <List>
+                    {
+                        topics.map(topic => (
+                            <ListItem key={topic.id} topic={topic} onClick={this.itemOnClick} />
+                        ))
+                    }
+                </List>
+                {
+                    syncing
+                        ? (
+                            <div>
+                                <CircularProgress color="secondary" size={100} />
+                            </div>
+                        ) : null
+                }
             </Container>
         )
     }
