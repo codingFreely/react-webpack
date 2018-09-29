@@ -5,8 +5,10 @@ import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import List from '@material-ui/core/List'
 import CircularProgress from '@material-ui/core/CircularProgress';
+import qs from 'querystring'
 
 import Container from '../../layout/container'
+import { tabs } from '../../constants/topic-tab'
 
 import ListItem from './list-item'
 
@@ -20,7 +22,7 @@ export default class TopicList extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            tabValue: 0
+
         }
         this.handleChange = this.handleChange.bind(this)
         this.itemOnClick = this.itemOnClick.bind(this)
@@ -45,9 +47,17 @@ export default class TopicList extends Component {
         })
     }
 
+    getTab() {
+        const { location } = this.props
+        const query = qs(location.search)
+        return query.tab || 'all'
+    }
+
     handleChange(e, v) {
-        this.setState({
-            tabValue: v
+        const { router } = this.context
+        router.history.push({
+            pathname: './index',
+            search: `?tab=${v}`
         })
     }
     /* eslint-disable */
@@ -58,17 +68,10 @@ export default class TopicList extends Component {
 
     render() {
         // const { appState } = this.props
-        const { tabValue } = this.state
-        // const topic = {
-        //     title: 'this is title',
-        //     username: 'nike',
-        //     reply_count: 20,
-        //     visit_count: 30,
-        //     create_at: 'asdff',
-        //     tab: 'share'
-        // }
+        const tabValue = this.getTab()
         const { topicStore } = this.props
         const { syncing, topics } = topicStore
+
         return (
             <Container>
                 <Helmet>
@@ -76,12 +79,11 @@ export default class TopicList extends Component {
                     <meta name="description" content="this is description" />
                 </Helmet>
                 <Tabs value={tabValue} onChange={this.handleChange}>
-                    <Tab label="分享" />
-                    <Tab label="工作" />
-                    <Tab label="全部" />
-                    <Tab label="问答" />
-                    <Tab label="精品" />
-                    <Tab label="测试" />
+                    {
+                        Object.keys(tabs).map(tab => {
+                            return <Tab label={tabs[tab]} value={tab} key={tab} />
+                        })
+                    }
                 </Tabs>
                 <List>
                     {

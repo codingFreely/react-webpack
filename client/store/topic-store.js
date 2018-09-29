@@ -38,6 +38,13 @@ class TopicStore {
             })
         })
     }
+
+    toJson() {
+        return {
+            syncing: this.syncing,
+            topics: this.topics,
+        }
+    }
 }
 
 export default TopicStore
