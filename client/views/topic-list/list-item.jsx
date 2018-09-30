@@ -5,15 +5,24 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import Avatar from '@material-ui/core/Avatar'
 import ListItemText from '@material-ui/core/ListItemText'
 import { withStyles } from '@material-ui/core/styles'
+import classNames from 'classnames'
 
 import { topicPrimaryStyle, topicScondaryStyle } from './styles'
+import { tabs } from '../../constants/topic-tab-const'
 
-const Primary = ({ classes, topic }) => (
-    <span className={classes.root}>
-        <span className={classes.tab}>{topic.tab}</span>
-        <span className={classes.title}>{topic.title}</span>
-    </span>
-)
+const Primary = ({ classes, topic }) => {
+    const tabClass = classNames({
+        [classes.tab]: true, // es6取变量作为属性名
+        [classes.top]: topic.top
+    })
+
+    return (
+        <span className={classes.root}>
+            <span className={tabClass}>{topic.top ? '置顶' : tabs[topic.tab]}</span>
+            <span className={classes.title}>{topic.title}</span>
+        </span>
+    )
+}
 
 const Secondary = ({ classes, topic }) => (
     <span className={classes.root}>

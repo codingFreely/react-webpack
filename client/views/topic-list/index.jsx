@@ -5,10 +5,10 @@ import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import List from '@material-ui/core/List'
 import CircularProgress from '@material-ui/core/CircularProgress';
-import qs from 'querystring'
+import qs from 'query-string'
 
 import Container from '../../layout/container'
-import { tabs } from '../../constants/topic-tab'
+import { tabs } from '../../constants/topic-tab-const'
 
 import ListItem from './list-item'
 
@@ -34,7 +34,13 @@ export default class TopicList extends Component {
         //     accessToken: '26dfbd94-7766-43e0-baf0-6c69468e5b00',
         // })
         const { topicStore } = this.props
-        topicStore.fetchTopics()
+        topicStore.fetchTopics(this.getTab())
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.location.search !== this.props.location.search) {
+            this.props.topicStore.fetchTopics(this.getTab(nextProps.location.search))
+        }
     }
 
     bootstrap() {
@@ -47,16 +53,16 @@ export default class TopicList extends Component {
         })
     }
 
-    getTab() {
+    getTab(search) {
         const { location } = this.props
-        const query = qs(location.search)
+        const query = qs.parse(search || location.search)
         return query.tab || 'all'
     }
 
     handleChange(e, v) {
-        const { router } = this.context
-        router.history.push({
-            pathname: './index',
+        const { history } = this.props
+        history.push({
+            pathname: './list',
             search: `?tab=${v}`
         })
     }
@@ -95,7 +101,12 @@ export default class TopicList extends Component {
                 {
                     syncing
                         ? (
-                            <div>
+                            <div style={{
+                                display: 'flex',
+                                justifyContent: 'space-around',
+                                padding: '40px 0'
+                            }}
+                            >
                                 <CircularProgress color="secondary" size={100} />
                             </div>
                         ) : null

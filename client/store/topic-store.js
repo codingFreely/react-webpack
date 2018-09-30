@@ -17,11 +17,12 @@ class TopicStore {
         this.topics = topics.map(topic => observable(topic))
     }
 
-    @action fetchTopics() {
+    @action fetchTopics(tab) {
         return new Promise((resolve, reject) => { // 有异步处理时用promise
             this.syncing = true
             get('/topics', {
-                mdrender: false
+                mdrender: false,
+                tab
             }).then(resp => {
                 if (resp.success) {
                     this.topics = resp.data.map(topic => (
