@@ -10,12 +10,15 @@ import 'babel-polyfill'
 
 import theme from './customization/theme'
 import App from './views/App.jsx' // eslint-disable-line
-import AppState from './store/app-state'
+import { AppState, TopicStore } from './store/stores'
 
 const env = process.env.NODE_ENV
 
 const initalState = window.__INITAL__STATE__ || {} // eslint-disable-line
-const initStore = new AppState(initalState.appState)
+const initStore = {
+    appState: new AppState(initalState.appState),
+    topicStore: new TopicStore(initalState.topicStore)
+}
 
 // Create a new class name generator.
 const generateClassName = createGenerateClassName();
@@ -26,7 +29,7 @@ const render = (Component) => {
 
     renderFn(
         <AppContainer>
-            <Provider appState={initStore}>
+            <Provider {...initStore}>
                 <BrowserRouter>
                     <JssProvider generateClassName={generateClassName}>
                         <MuiThemeProvider theme={theme}>

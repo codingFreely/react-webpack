@@ -1,20 +1,28 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
-import axios from 'axios'
 import Helmet from 'react-helmet'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
+import List from '@material-ui/core/List'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import qs from 'query-string'
 
 import Container from '../../layout/container'
+import { tabs } from '../../constants/topic-tab-const'
 
 import ListItem from './list-item'
 
-@inject('appState') @observer
+@inject(stores => {
+    return {
+        appState: stores.appState,
+        topicStore: stores.topicStore
+    }
+}) @observer
 export default class TopicList extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            tabValue: 0
+
         }
         this.handleChange = this.handleChange.bind(this)
         this.itemOnClick = this.itemOnClick.bind(this)
@@ -22,9 +30,17 @@ export default class TopicList extends Component {
 
     componentDidMount() {
         // do something
-        axios.post('/api/user/login', {
-            accessToken: '26dfbd94-7766-43e0-baf0-6c69468e5b00',
-        })
+        // axios.post('/api/user/login', {
+        //     accessToken: '26dfbd94-7766-43e0-baf0-6c69468e5b00',
+        // })
+        const { topicStore } = this.props
+        topicStore.fetchTopics(this.getTab())
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.location.search !== this.props.location.search) {
+            this.props.topicStore.fetchTopics(this.getTab(nextProps.location.search))
+        }
     }
 
     bootstrap() {
@@ -37,28 +53,31 @@ export default class TopicList extends Component {
         })
     }
 
+    getTab(search) {
+        const { location } = this.props
+        const query = qs.parse(search || location.search)
+        return query.tab || 'all'
+    }
+
     handleChange(e, v) {
-        this.setState({
-            tabValue: v
+        const { history } = this.props
+        history.push({
+            pathname: './list',
+            search: `?tab=${v}`
         })
     }
     /* eslint-disable */
-    itemOnClick(){
-        console.log(111111111111111111)
+    itemOnClick(item) {
+        const { history } = this.props
+        history.push(`/detail/${item.id}`)
     }
     /* eslint-enable */
 
     render() {
         // const { appState } = this.props
-        const { tabValue } = this.state
-        const topic = {
-            title: 'this is title',
-            username: 'nike',
-            reply_count: 20,
-            visit_count: 30,
-            create_at: 'asdff',
-            tab: 'share'
-        }
+        const tabValue = this.getTab()
+        const { topicStore } = this.props
+        const { syncing, topics } = topicStore
 
         return (
             <Container>
@@ -67,14 +86,36 @@ export default class TopicList extends Component {
                     <meta name="description" content="this is description" />
                 </Helmet>
                 <Tabs value={tabValue} onChange={this.handleChange}>
-                    <Tab label="分享" />
-                    <Tab label="工作" />
-                    <Tab label="全部" />
-                    <Tab label="问答" />
-                    <Tab label="精品" />
-                    <Tab label="测试" />
+                    {
+                        Object.keys(tabs).map(tab => {
+                            return <Tab label={tabs[tab]} value={tab} key={tab} />
+                        })
+                    }
                 </Tabs>
-                <ListItem topic={topic} onClick={this.itemOnClick} />
+                <List>
+                    {
+                        topics.map(topic => (
+                            <ListItem
+                                key={topic.id}
+                                topic={topic}
+                                onClick={() => { this.itemOnClick(topic) }}
+                            />
+                        ))
+                    }
+                </List>
+                {
+                    syncing
+                        ? (
+                            <div style={{
+                                display: 'flex',
+                                justifyContent: 'space-around',
+                                padding: '40px 0'
+                            }}
+                            >
+                                <CircularProgress color="secondary" size={100} />
+                            </div>
+                        ) : null
+                }
             </Container>
         )
     }

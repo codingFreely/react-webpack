@@ -37,7 +37,7 @@ if (isDev) {
     }
     config.devServer = {
         host: '0.0.0.0',
-        port: 6363,
+        port: 6363, // 8888
         //  contentBase: path.join(__dirname, '../dist'), // contentBase devServer是优先硬盘里读取文件而不是使用webpack编译得到的文件
         overlay: {
             errors: true
@@ -52,6 +52,9 @@ if (isDev) {
         }
     };
     config.plugins.push(new webpack.HotModuleReplacementPlugin())
+    // config.plugins.push(new webpack.DefinePlugin({ // if request address is not localhost, setting request api server ip
+    //     'process.env.API_BASE': '"http://127.0.0.0:3333"'
+    // }))
 }
 
 module.exports = webpackMerge(baseConfig, config) // 第二个覆盖第一个参数
