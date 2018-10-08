@@ -68,7 +68,11 @@ export default class TopicList extends Component {
     }
     /* eslint-disable */
     itemOnClick() {
-        console.log(111111111233111111111)
+        const { history } = this.props
+        history.push({
+            pathname: './detail',
+            params: ''
+        })
     }
     /* eslint-enable */
 
