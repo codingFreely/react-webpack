@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { resolve } from 'dns';
 
 const baseUrl = process.env.API_BASE || ''
 
@@ -12,50 +11,32 @@ const parseUrl = (url, params) => {
     return `${baseUrl}/${url}?${str.substr(0, str.length - 1)}`
 }
 
-export const get = (url, params) => {
-    return new Promise((resolve, reject) => {
+export const get = (url, params) => (
+    new Promise((resolve, reject) => {
         axios.get(parseUrl(url, params))
             .then(res => {
-                const data = res.data
+                const { data } = res
                 if (data && data.sucess === true) {
                     resolve(data)
                 } else {
                     reject(data)
                 }
-            }).catch(err => {
-                if (err.response) {
-                    reject(err.response.data)
-                } else {
-                    reject({
-                        sucess: false,
-                        err_msg: err.message
-                    })
-                }
-            })
+            }).catch(reject)
     })
-}
+)
 
-export const post = (url, params, data) => {
-    return new Promise((resolve, reject) => {
-        axios.post(parseUrl(url, params, data))
+export const post = (url, params, datas) => (
+    new Promise((resolve, reject) => {
+        axios.post(parseUrl(url, params, datas))
             .then(res => {
-                const data = res.data
+                const { data } = res
                 if (data && data.sucess === true) {
                     resolve(data)
                 } else {
                     reject(data)
                 }
-            }).catch(err => {
-                if (err.response) {
-                    reject(err.response.data)
-                } else {
-                    reject({
-                        sucess: false,
-                        err_msg: err.message
-                    })
-                }
-            })
+            }).catch(reject)
     })
-}
+)
 
 export default post
