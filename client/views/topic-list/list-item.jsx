@@ -9,6 +9,7 @@ import classNames from 'classnames'
 
 import { topicPrimaryStyle, topicScondaryStyle } from './styles'
 import { tabs } from '../../constants/topic-tab-const'
+import dateFormat from '../../utils/date-format'
 
 const Primary = ({ classes, topic }) => {
     const tabClass = classNames({
@@ -32,7 +33,7 @@ const Secondary = ({ classes, topic }) => (
             <span>/</span>
             <span>{topic.visit_count}</span>
         </span>
-        <span>创建时间：{topic.create_at}</span>
+        <span>创建时间：{dateFormat(topic.create_at)}</span>
     </span>
 )
 
