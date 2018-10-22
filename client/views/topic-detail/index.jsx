@@ -24,16 +24,22 @@ import Reply from './reply'
 class TopicDetail extends React.Component {
     componentDidMount() {
         // do something
+        const topicId = this.getTopicId()
+        this.props.topicStore.fetchTopicDetail(topicId)
+    }
+
+    getTopicId() {
+        return this.props.match.params.id
     }
 
     render() {
         const { classes } = this.props
-        const topic = this.props.topicStore.topic[0]
+        const topic = this.props.topicStore.topicDetailMap[this.getTopicId()]
         if (!topic) {
             return (
                 <Container>
                     <section className={classes.loadingContainer}>
-                        <CircularProgress color="accent" />
+                        <CircularProgress color="secondary" />
                     </section>
                 </Container>
             )
