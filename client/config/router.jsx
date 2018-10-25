@@ -6,6 +6,8 @@ import {
 
 import TopicDetail from '../views/topic-detail/index'
 import TopicList from '../views/topic-list/index'
+import UserLogin from '../views/user/login'
+import Userinfo from '../views/user/info'
 
 export default function Routes() {
     return (
@@ -13,6 +15,8 @@ export default function Routes() {
             <Route path="/" render={() => <Redirect to="/list" />} exact />
             <Route path="/list" component={TopicList} />
             <Route path="/detail/:id" component={TopicDetail} />
+            <Route path="/user/login" exact component={UserLogin} />
+            <Route path="/user/info" exact component={Userinfo} />
         </div>
     )
 }

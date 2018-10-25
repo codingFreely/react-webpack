@@ -7,6 +7,11 @@ import IconButton from '@material-ui/core/IconButton';
 import IconHome from '@material-ui/icons/Home'
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button'
+import {
+    inject,
+    observer
+} from 'mobx-react'
+import { withRouter } from 'react-router-dom'
 
 const styles = {
     root: {
@@ -17,6 +22,11 @@ const styles = {
     }
 }
 
+@inject((stores) => {
+    return {
+        user: stores.appState.user,
+    }
+}) @observer @withRouter
 class Navbar extends React.Component {
     constructor(props) {
         super(props)
@@ -34,11 +44,22 @@ class Navbar extends React.Component {
     }
 
     onLoginClick() {
-
+        const { location } = this.props
+        if (location.pathname !== '/user/login') {
+            if (this.props.user.isLogin) {
+                this.props.history.push('/user/info')
+            } else {
+                this.props.history.push({
+                    pathname: '/user/login',
+                    search: `?from=${location.pathname}`,
+                })
+            }
+        }
     }
 
     render() {
         const { classes } = this.props
+        const user = this.props.user
 
         return (
             <div className={classes.root}>
@@ -54,7 +75,7 @@ class Navbar extends React.Component {
                             新建话题
                         </Button>
                         <Button color="inherit" onClick={this.onLoginClick}>
-                            登陆
+                            {user.isLogin ? user.info.loginname : '登录'}
                         </Button>
                     </Toolbar>
                 </AppBar>

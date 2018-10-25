@@ -9,7 +9,6 @@ const theme = createMuiTheme({
         },
         secondary: {
             main: pink['A200'],
-            dark: blue[200],
         },
         type: 'light',
     },
