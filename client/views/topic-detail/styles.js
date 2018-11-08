@@ -21,7 +21,7 @@ export const topicDetailStyle = (theme) => {
         },
         replyHeader: {
             padding: '10px 20px',
-            backgroundColor: theme.palette.primary[500],
+            backgroundColor: theme.palette.secondary.main,
             color: '#fff',
             display: 'flex',
             justifyContent: 'space-between',

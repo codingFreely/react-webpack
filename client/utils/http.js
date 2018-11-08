@@ -32,7 +32,7 @@ export const get = (url, params) => (
 
 export const post = (url, params, datas) => {
     return new Promise((resolve, reject) => {
-        axios.post(parseUrl(url, params, datas))
+        axios.post(parseUrl(url, params), datas)
             .then(res => {
                 const { data } = res
                 if (data && data.success === true) {

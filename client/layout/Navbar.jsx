@@ -22,11 +22,12 @@ const styles = {
     }
 }
 
+@withRouter
 @inject((stores) => {
     return {
         user: stores.appState.user,
     }
-}) @observer @withRouter
+}) @observer
 class Navbar extends React.Component {
     constructor(props) {
         super(props)
@@ -36,11 +37,11 @@ class Navbar extends React.Component {
     }
 
     onHomeIconClick() {
-
+        this.props.history.push('/list?tab=all')
     }
 
     onCreateButtonClick() {
-
+        this.props.history.push('/topic/create')
     }
 
     onLoginClick() {

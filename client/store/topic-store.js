@@ -6,7 +6,7 @@ import {
     computed
 } from 'mobx'
 
-import { get } from '../utils/http'
+import { get, post } from '../utils/http'
 
 class TopicStore {
     @observable topics
@@ -14,6 +14,8 @@ class TopicStore {
     @observable syncing
 
     @observable topicDetailList
+
+    @observable createdTopics = []
 
     constructor({ syncing, topics, topicDetailList } = { syncing: false, topics: [], topicDetailList: [] }) {
         this.syncing = syncing
@@ -57,6 +59,7 @@ class TopicStore {
                 this.syncing = true
                 get(`/topic/${topicId}`).then((resp) => {
                     if (resp.success) {
+                        resp.data.myReplys = []
                         this.topicDetailList.push(observable(resp.data))
                         resolve()
                     } else {
@@ -73,6 +76,38 @@ class TopicStore {
         })
     }
 
+    @action createTopic(title, tab, content) {
+        return new Promise((resolve, reject) => {
+            post('/topics', { needAccessToken: true }, {
+                title, tab, content,
+            })
+                .then(data => {
+                    if (data.success) {
+                        const topic = {
+                            title,
+                            tab,
+                            content,
+                            id: data.topic_id,
+                            create_at: new Date(),
+                            reply_count: 0,
+                            visit_count: 0
+                        }
+                        this.createdTopics.push(observable(topic))
+                        resolve()
+                    } else {
+                        reject(new Error(data.error_msg || '未知错误'))
+                    }
+                })
+                .catch((err) => {
+                    if (err.response) {
+                        reject(new Error(err.response.data.error_msg || '未知错误'))
+                    } else {
+                        reject(new Error('未知错误'))
+                    }
+                })
+        })
+    }
+
     toJson() {
         return {
             syncing: this.syncing,
@@ -80,6 +115,24 @@ class TopicStore {
             topicDetail: this.topicDetail
         }
     }
+}
+
+export const doReply = function (topic, content) {
+    return new Promise((resolve, reject) => {
+        post(`/topic/${topic.id}/replies`, { needAccessToken: true }, { content })
+            .then(resp => {
+                if (resp.success) {
+                    topic.myReplys.push({
+                        create_at: new Date(),
+                        id: resp.reply_id,
+                        content,
+                    })
+                    resolve()
+                } else {
+                    reject(resp)
+                }
+            })
+    })
 }
 
 export default TopicStore

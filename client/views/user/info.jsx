@@ -120,13 +120,13 @@ class UserInfo extends React.Component {
     }
 }
 
-UserInfo.wrappedComponent.propTypes = {
+UserInfo.wrappedComponent.propTypes = { // 指向orignal UserInfo class
     appState: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
 }
 
 UserInfo.propTypes = {
     classes: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
 }
 
 export default withStyles(infoStyles)(UserInfo)

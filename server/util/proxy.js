@@ -8,7 +8,7 @@ module.exports = function (req, res, next) {
     const user = req.session.user || {}
     const needAccessToken = req.query.needAccessToken
 
-    if (needAccessToken && !user.accessToken) {
+    if (needAccessToken && !user.accesstoken) {
         res.status(401).send({
             success: false,
             msg: 'need login'
