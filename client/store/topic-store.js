@@ -1,6 +1,6 @@
 import {
     observable,
-    // toJS,
+    toJS,
     // computed,
     action,
     computed
@@ -17,10 +17,17 @@ class TopicStore {
 
     @observable createdTopics = []
 
-    constructor({ syncing, topics, topicDetailList } = { syncing: false, topics: [], topicDetailList: [] }) {
+    @observable tab
+
+    constructor(
+        {
+            syncing = false, topics = [], tab = null, topicDetailList = []
+        } = {}
+    ) {
         this.syncing = syncing
         this.topics = topics.map(topic => observable(topic))
         this.topicDetailList = topicDetailList
+        this.tab = tab
     }
 
     @computed get topicDetailMap() {
@@ -32,24 +39,29 @@ class TopicStore {
 
     @action fetchTopics(tab) {
         return new Promise((resolve, reject) => { // 有异步处理时用promise并return promise，使外部有处理的能力
-            this.syncing = true
-            get('/topics', {
-                mdrender: false,
-                tab
-            }).then(resp => {
-                if (resp.success) {
-                    this.topics = resp.data.map(topic => (
-                        observable(topic)
-                    ))
-                    resolve()
-                } else {
-                    reject(resp)
-                }
-                this.syncing = false
-            }).catch((err) => {
-                reject(err)
-                this.syncing = false
-            })
+            if (this.tab === tab && this.topics.length > 0) {
+                resolve()
+            } else {
+                this.syncing = true
+                this.tab = tab
+                get('/topics', {
+                    mdrender: false,
+                    tab
+                }).then(resp => {
+                    if (resp.success) {
+                        this.topics = resp.data.map(topic => (
+                            observable(topic)
+                        ))
+                        resolve()
+                    } else {
+                        reject(resp)
+                    }
+                    this.syncing = false
+                }).catch((err) => {
+                    reject(err)
+                    this.syncing = false
+                })
+            }
         })
     }
 
@@ -111,8 +123,9 @@ class TopicStore {
     toJson() {
         return {
             syncing: this.syncing,
-            topics: this.topics,
-            topicDetail: this.topicDetail
+            topics: toJS(this.topics),
+            topicDetailList: toJS(this.topicDetailList),
+            tab: this.tab
         }
     }
 }

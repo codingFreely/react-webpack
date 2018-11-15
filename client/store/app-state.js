@@ -20,6 +20,13 @@ export default class AppState {
         },
     }
 
+    @action init({ user } = {}) {
+        if (user) {
+            this.user = user
+        }
+        return this
+    }
+
     @action login(accessToken) {
         if (accessToken === 'admin') {
             accessToken = '26dfbd94-7766-43e0-baf0-6c69468e5b00'

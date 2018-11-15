@@ -16,7 +16,7 @@ const env = process.env.NODE_ENV
 
 const initalState = window.__INITAL__STATE__ || {} // eslint-disable-line
 const initStore = {
-    appState: new AppState(initalState.appState),
+    appState: new AppState().init(initalState.appState),
     topicStore: new TopicStore(initalState.topicStore)
 }
 

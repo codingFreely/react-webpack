@@ -19,6 +19,12 @@ module.exports = function (bundle, templete, req, res) {
         const serverBundle = bundle.default
         const store = createStoreMap()
         const sheetsRegistry = new SheetsRegistry()
+
+        const userInfo = req.session.user
+        if (req.session.user) {
+            store.appState.user.isLogin = true
+            store.appState.user.info = userInfo
+        }
         const app = serverBundle(store, routerContext, req.url, sheetsRegistry)
         // 使用reactAsyncBootstrapper在react render之前先预加载初始化数据
         reactAsyncBootstrapper(app).then(() => {

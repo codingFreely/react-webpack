@@ -66,7 +66,10 @@ class TopicDetail extends React.Component {
     }
 
     goToLogin() {
-        this.props.history.push('/user/login')
+        this.props.history.replace({
+            pathname: '/user/login',
+            search: `?from=${this.props.location.pathname}`
+        })
     }
 
     render() {

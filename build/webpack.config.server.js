@@ -1,3 +1,4 @@
+// 打包server所需资源
 const path = require('path')
 const webpackMerge = require('webpack-merge')
 const baseConfig = require('./webpack.base.config')
@@ -16,6 +17,8 @@ module.exports = webpackMerge(baseConfig, {
 
     },
     plugins: [
-
+        new webpack.DefinePlugin({ // setting request api server host, when server render, if use directly /api,default host is 127.0.0.1:80
+            'process.env.API_BASE': '"http://localhost:3333"'
+        })
     ]
 })

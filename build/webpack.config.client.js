@@ -1,7 +1,9 @@
+// 打包client所需资源
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const webpack = require('webpack')
 const webpackMerge = require('webpack-merge')
+
 const baseConfig = require('./webpack.base.config')
 
 const isDev = process.env.NODE_ENV === 'development'
@@ -52,9 +54,28 @@ if (isDev) {
         }
     };
     config.plugins.push(new webpack.HotModuleReplacementPlugin())
-    // config.plugins.push(new webpack.DefinePlugin({ // if request address is not localhost, setting request api server ip
-    //     'process.env.API_BASE': '"http://127.0.0.0:3333"'
-    // }))
+} else {
+    config.mode = 'production'
+    config.entry = {
+        app: path.join(__dirname, '../client/app.js')
+        // vendor: [
+        //     'react',
+        //     'react-dom',
+        //     'react-router-dom',
+        //     'mobx',
+        //     'mobx-react',
+        //     'axios',
+        //     'query-string',
+        //     'dateformat',
+        //     'marked'
+        // ]
+    }
+    config.output.filename = '[name].[chunkhash].js' // hash码针对整个打包过程只有一个，chunkhash对应不同的chunk
+    config.optimization = {
+        splitChunks: {
+            chunks: 'all'
+        }
+    }
 }
 
 module.exports = webpackMerge(baseConfig, config) // 第二个覆盖第一个参数

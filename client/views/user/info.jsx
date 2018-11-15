@@ -17,9 +17,9 @@ import { withStyles } from '@material-ui/core/styles'
 import UserWrapper from './user'
 import infoStyles from './styles/user-info-style'
 
-const TopicItem = (({ topic }) => {
+const TopicItem = (({ topic, onClick }) => {
     return (
-        <ListItem>
+        <ListItem button onClick={onClick}>
             <Avatar src={topic.author.avatar_url} />
             <ListItemText
                 primary={topic.title}
@@ -49,6 +49,10 @@ class UserInfo extends React.Component {
         this.props.appState.getUserCollection()
     }
 
+    goTopicDetail(topic) {
+        this.props.history.push(`/detail/${topic.id}`)
+    }
+
     render() {
         const classes = this.props.classes
         const topics = this.props.user.detail.recent_topics
@@ -67,7 +71,7 @@ class UserInfo extends React.Component {
                                 <List>
                                     {
                                         topics.length > 0 ?
-                                            topics.map(topic => <TopicItem topic={topic} key={topic.id} />) :
+                                            topics.map(topic => <TopicItem topic={topic} key={topic.id} onClick={() => { this.goTopicDetail(topic) }} />) :
                                             (
                                                 <Typography align="center">
                                                     最近没有发布过话题
@@ -85,7 +89,7 @@ class UserInfo extends React.Component {
                                 <List>
                                     {
                                         replies.length > 0 ?
-                                            replies.map(topic => <TopicItem topic={topic} key={topic.id} />) :
+                                            replies.map(topic => <TopicItem topic={topic} key={topic.id} onClick={() => { this.goTopicDetail(topic) }} />) :
                                             (
                                                 <Typography align="center">
                                                     最近没有新的回复
@@ -103,7 +107,7 @@ class UserInfo extends React.Component {
                                 <List>
                                     {
                                         collections.length > 0 ?
-                                            collections.map(topic => <TopicItem topic={topic} key={topic.id} />) :
+                                            collections.map(topic => <TopicItem topic={topic} key={topic.id} onClick={() => { this.goTopicDetail(topic) }} />) :
                                             (
                                                 <Typography align="center">
                                                     还么有收藏话题哦
