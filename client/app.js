@@ -12,8 +12,6 @@ import theme from './customization/theme'
 import App from './views/App.jsx' // eslint-disable-line
 import { AppState, TopicStore } from './store/stores'
 
-const env = process.env.NODE_ENV
-
 const initalState = window.__INITAL__STATE__ || {} // eslint-disable-line
 const initStore = {
     appState: new AppState().init(initalState.appState),
@@ -25,7 +23,8 @@ const generateClassName = createGenerateClassName();
 
 const root = document.getElementById('root')
 const render = (Component) => {
-    const renderFn = env === 'development' ? ReactDom.render : ReactDom.hydrate
+    // react 17 will replace render to hydrate when using ssr
+    const renderFn = ReactDom.render
 
     renderFn(
         <AppContainer>

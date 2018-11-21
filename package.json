@@ -6,15 +6,15 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:client": "webpack --config build/webpack.config.client.js",
-    "build:server": "webpack --config build/webpack.config.server.js",
+    "build:client": "cross-env NODE_ENV=production webpack --config build/webpack.config.client.js",
+    "build:server": "cross-env NODE_ENV=production webpack --config build/webpack.config.server.js",
     "clear": "rimraf dist",
     "build": "npm run clear && npm run build:client && npm run build:server",
     "dev:client": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.config.client.js",
-    "dev:server": "cross-env NODE_ENV=development nodemon server/server.js",
+    "dev:server": "cross-env NODE_ENV=development WATCH_FIlE=true nodemon server/server.js",
     "lint": "eslint --ext .js --ext .jsx client/",
     "precommit": "npm run lint",
-    "start": "node server/server.js"
+    "start": "cross-env NODE_ENV=production node server/server.js"
   },
   "author": "lucky.zhang",
   "license": "ISC",

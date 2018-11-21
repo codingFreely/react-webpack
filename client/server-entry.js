@@ -5,7 +5,6 @@ import { Provider, useStaticRendering } from 'mobx-react'
 import JssProvider from 'react-jss/lib/JssProvider'
 import {
     MuiThemeProvider,
-    createGenerateClassName,
 } from '@material-ui/core/styles'
 
 import theme from './customization/theme'
@@ -17,12 +16,9 @@ import { createStoreMap } from './store/stores'
 useStaticRendering(true)
 
 // {appStore: xxx}
-export default (store, routerContext, url, sheetsRegistry) => {
+export default (store, routerContext, url, sheetsRegistry, generateClassName) => {
     // Create a sheetsManager instance.
     const sheetsManager = new Map();
-
-    // Create a new class name generator.
-    const generateClassName = createGenerateClassName()
 
     return (
         <Provider {...store}>

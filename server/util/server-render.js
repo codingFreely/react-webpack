@@ -4,6 +4,7 @@ const serialize = require('serialize-javascript')
 const ejs = require('ejs')
 const Helmet = require('react-helmet').default
 const SheetsRegistry = require('react-jss/lib/jss').SheetsRegistry
+const createGenerateClassName = require('@material-ui/core/styles').createGenerateClassName
 
 const getInitalState = function (stores) {
     return Object.keys(stores).reduce((result, storeName) => {
@@ -25,7 +26,10 @@ module.exports = function (bundle, templete, req, res) {
             store.appState.user.isLogin = true
             store.appState.user.info = userInfo
         }
-        const app = serverBundle(store, routerContext, req.url, sheetsRegistry)
+
+        // Create a new class name generator.
+        const generateClassName = createGenerateClassName()
+        const app = serverBundle(store, routerContext, req.url, sheetsRegistry, generateClassName)
         // 使用reactAsyncBootstrapper在react render之前先预加载初始化数据
         reactAsyncBootstrapper(app).then(() => {
             let content = ReactDomServer.renderToString(app)

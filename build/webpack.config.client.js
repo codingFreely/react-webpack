@@ -55,7 +55,6 @@ if (isDev) {
     };
     config.plugins.push(new webpack.HotModuleReplacementPlugin())
 } else {
-    config.mode = 'production'
     config.entry = {
         app: path.join(__dirname, '../client/app.js')
         // vendor: [

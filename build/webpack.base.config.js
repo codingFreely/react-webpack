@@ -1,7 +1,10 @@
 const path = require('path')
 
+const isDev = process.env.NODE_ENV === 'development'
+const mode = isDev ? 'development' : 'production'
+
 module.exports = {
-    mode: 'development',
+    mode: mode,
     output: {
         path: path.join(__dirname, '../dist'),
         publicPath: '/public/' //  public后加'/'对于编译没有影响，但是会影响到hmr
