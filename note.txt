@@ -59,6 +59,7 @@ babel-loader只是插件，还需安装babel-core才能让babel-loader生效
 4.tree shaking
 5.uglify
 6.cache
+7.指定异步chunk命名规则，便于缓存
 
 redux与mobx:
 redux每次执行action会返回新的state，所有页面从新渲染，但是react虚拟dom存在，所以效率依旧高;mobx则始终只有一份数据，每次更新只是修改
@@ -112,3 +113,5 @@ display:flex, align-item:center 让子元素垂直居中
 17.编写逻辑复杂的function时，要习惯性的在顶部把要用到的数据赋给变量，然后在后面的js表达式或者jsx中 变量.api;
 尽量少在表达式或者jsx中使用obj.property.api,不美观，且可读性差。
 18.除了状态提升，还要考虑状态拆分，是否应该拆分到子组件，否则状态太多就糅杂到一起了
+19.如果第三方的package和自己项目中有相同的dependencies但是大版本差的太多，导致会有一些问题，可以尝试自己实现第三方package
+20.PM2，node server管理工具
