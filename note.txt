@@ -115,8 +115,13 @@ display:flex, align-item:center 让子元素垂直居中
 18.除了状态提升，还要考虑状态拆分，是否应该拆分到子组件，否则状态太多就糅杂到一起了
 19.如果第三方的package和自己项目中有相同的dependencies但是大版本差的太多，导致会有一些问题，可以尝试自己实现第三方package
 20.PM2，node server管理工具
-
-
+21.hoc高阶组件:1.封装使用componet时候的交叉逻辑(组合、逻辑、state处理),参数化component 
+2.增强componet传入需要props 3.修改componet声明周期。针对的是component,
+并且***最重要的是hoc是创造一个新的component,render props只是参数化<children />。
+hoc封装的是实现，render prop封装的是调用render prop的过程。hoc是复用性，render prop是低耦合
+何时使用hoc:首先组件本就是react中最小的复用单元，具有复用性。封装hoc也得是在hoc有复用性需求时才去封装。
+hoc的复用性和组件的复用性区别：组件的复用是功能单元的复用，hoc复用是组件特定使用方式，组合,逻辑处理场景过程的复用
+22.render props是封装一个componet的children render的的交叉逻辑，参数化<children />, 针对的是children的render。不要和hoc混淆了
 
 
 
