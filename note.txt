@@ -124,7 +124,12 @@ hoc的复用性和组件的复用性区别：组件的复用是功能单元的复用，hoc复用是组件特定使用
 22.render props是封装一个componet的children render的的交叉逻辑，参数化<children />, 针对的是children的render。不要和hoc混淆了
 
 
-
+render()函数应该纯净，意味着其不应该改变组件的状态，其每次调用都应返回相同的结果(我理解为返回结果不是if else 多种情况的return)，同时不直接和浏览器交互。
+***1.父组件导致组件的更新  2.自身状态的改变  3.provider的值改变  这三种情况会触发一次更新。 重渲染我理解为组件对应dom树的更新,与组件更新概念不同
+shouldComponentUpdate返回了true后，react比较待渲染的元素与原始元素是否相等，以决定更新这个DOM节点。
+组件状态改变时，即便shouldComponentUpdate钩子返回false，并不能阻止子组件重渲
+componentDidUpdate 当组件被更新时，使用该方法是操作DOM的一次机会。这也是一个适合发送请求的地方，要是你对比了当前属性和之前属性（例如，如果属性没有改变那么请求也就没必要了）
+getSnapshotBeforeUpdate
 
 ***************
 该项目遗留问题：css in js热更新无效
