@@ -118,12 +118,15 @@ display:flex, align-item:center 让子元素垂直居中
 21.hoc高阶组件:1.封装使用componet时候的交叉逻辑(组合、逻辑、state处理),参数化component 
 2.增强componet传入需要props 3.修改componet声明周期。针对的是component,
 并且***最重要的是hoc是创造一个新的component,render props只是参数化<children />。
-hoc封装的是实现，render prop封装的是调用render prop的过程。hoc是复用性，render prop是低耦合
+hoc封装的是实现，render prop则是调用render prop fn，渲染逻辑参数化。hoc是复用性，render prop是低耦合
 何时使用hoc:首先组件本就是react中最小的复用单元，具有复用性。封装hoc也得是在hoc有复用性需求时才去封装。
 hoc的复用性和组件的复用性区别：组件的复用是功能单元的复用，hoc复用是组件特定使用方式，组合,逻辑处理场景过程的复用
 22.render props是封装一个componet的children render的的交叉逻辑，参数化<children />, 针对的是children的render。不要和hoc混淆了
 
+react中的event对象并非原生event而是SyntheticEvent, 且SyntheticEvent是共享的，事件句柄执行完毕后SyntheticEvent会被清空但是不会消失
 
+***组件生命周期：
+为了保证属性和状态同步，通常使用状态提升, 而不是componentWillReceiveProps中更新state。
 
 
 ***************
