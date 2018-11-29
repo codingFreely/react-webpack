@@ -1,0 +1,18 @@
+***组件生命周期：
+为了保证属性和状态同步，通常使用状态提升, 而不是componentWillReceiveProps中更新state。
+
+render()函数应该纯净，意味着其不应该改变组件的状态，其每次调用都应返回相同的结果(我理解为返回结果不是if else 多种情况的return)，同时不直接和浏览器交互。
+***1.父组件导致组件的更新  2.自身状态的改变  3.provider的值改变  这三种情况会触发一次更新(组件实例对象的更新)。 
+渲染: render方法返回新的组件元素，并且挂载(amount钩子)或更新(update钩子)dom
+shouldComponentUpdate钩子用于决定是否执行render得到新的组件输出以及更新dom。注意一点，返回了true后，react比较待渲染的元素与原始元素是否相等，以决定更新这个DOM节点。
+组件状态改变时，即便shouldComponentUpdate钩子返回false，并不能阻止子组件更新
+componentDidUpdate 当组件被更新时，使用该方法是操作DOM的一次机会。这也是一个适合发送请求的地方，要是你对比了当前属性和之前属性（例如，如果属性没有改变那么请求也就没必要了）
+调用this.setState不会触发componentWillReceiveProps
+
+UNSAFE_componentWillMount() UNSAFE_componentWillReceiveProps() UNSAFE_componentWillUpdate()这三个钩子在react17中将被废弃，
+三个钩子大多应用场景就是setState, 所以react 17中使用static getDerivedStateFromProps()将其替换，并且因为是静态方法，更安全
+如果使用了getDerivedStateFromProps钩子，这三个钩子将无效
+
+若你的render()方法依赖其他数据，你可以通过调用forceUpdate()来告诉React组件需要重渲.
+调用forceUpdate()将会导致组件的 render()方法被调用，并忽略shouldComponentUpdate()。这将会触发每一个子组件的生命周期方法，涵盖，
+每个子组件的shouldComponentUpdate() 方法。应尝试避免使用forceUpdate

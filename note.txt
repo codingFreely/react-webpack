@@ -128,6 +128,17 @@ reactÖĞµÄevent¶ÔÏó²¢·ÇÔ­Éúevent¶øÊÇSyntheticEvent, ÇÒSyntheticEventÊÇ¹²ÏíµÄ£¬ÊÂ¼
 ***×é¼şÉúÃüÖÜÆÚ£º
 ÎªÁË±£Ö¤ÊôĞÔºÍ×´Ì¬Í¬²½£¬Í¨³£Ê¹ÓÃ×´Ì¬ÌáÉı, ¶ø²»ÊÇcomponentWillReceivePropsÖĞ¸üĞÂstate¡£
 
+render()º¯ÊıÓ¦¸Ã´¿¾»£¬ÒâÎ¶×ÅÆä²»Ó¦¸Ã¸Ä±ä×é¼şµÄ×´Ì¬£¬ÆäÃ¿´Îµ÷ÓÃ¶¼Ó¦·µ»ØÏàÍ¬µÄ½á¹û(ÎÒÀí½âÎª·µ»Ø½á¹û²»ÊÇif else ¶àÖÖÇé¿öµÄreturn)£¬Í¬Ê±²»Ö±½ÓºÍä¯ÀÀÆ÷½»»¥¡£
+***1.¸¸×é¼şµ¼ÖÂ×é¼şµÄ¸üĞÂ  2.×ÔÉí×´Ì¬µÄ¸Ä±ä  3.providerµÄÖµ¸Ä±ä  ÕâÈıÖÖÇé¿ö»á´¥·¢Ò»´Î¸üĞÂ(×é¼şÊµÀı¶ÔÏóµÄ¸üĞÂ)¡£ 
+äÖÈ¾: render·½·¨·µ»ØĞÂµÄ×é¼şÔªËØ£¬²¢ÇÒ¹ÒÔØ(amount¹³×Ó)»ò¸üĞÂ(update¹³×Ó)dom
+shouldComponentUpdate¹³×ÓÓÃÓÚ¾ö¶¨ÊÇ·ñÖ´ĞĞrenderµÃµ½ĞÂµÄ×é¼şÊä³öÒÔ¼°¸üĞÂdom¡£×¢ÒâÒ»µã£¬·µ»ØÁËtrueºó£¬react±È½Ï´ıäÖÈ¾µÄÔªËØÓëÔ­Ê¼ÔªËØÊÇ·ñÏàµÈ£¬ÒÔ¾ö¶¨¸üĞÂÕâ¸öDOM½Úµã¡£
+×é¼ş×´Ì¬¸Ä±äÊ±£¬¼´±ãshouldComponentUpdate¹³×Ó·µ»Øfalse£¬²¢²»ÄÜ×èÖ¹×Ó×é¼ş¸üĞÂ
+componentDidUpdate µ±×é¼ş±»¸üĞÂÊ±£¬Ê¹ÓÃ¸Ã·½·¨ÊÇ²Ù×÷DOMµÄÒ»´Î»ú»á¡£ÕâÒ²ÊÇÒ»¸öÊÊºÏ·¢ËÍÇëÇóµÄµØ·½£¬ÒªÊÇÄã¶Ô±ÈÁËµ±Ç°ÊôĞÔºÍÖ®Ç°ÊôĞÔ£¨ÀıÈç£¬Èç¹ûÊôĞÔÃ»ÓĞ¸Ä±äÄÇÃ´ÇëÇóÒ²¾ÍÃ»±ØÒªÁË£©
+µ÷ÓÃthis.setState²»»á´¥·¢componentWillReceiveProps
+
+UNSAFE_componentWillMount() UNSAFE_componentWillReceiveProps() UNSAFE_componentWillUpdate()ÕâÈı¸ö¹³×ÓÔÚreact17ÖĞ½«±»·ÏÆú£¬
+Èı¸ö¹³×Ó´ó¶àÓ¦ÓÃ³¡¾°¾ÍÊÇsetState, ËùÒÔreact 17ÖĞÊ¹ÓÃstatic getDerivedStateFromProps()½«ÆäÌæ»»£¬²¢ÇÒÒòÎªÊÇ¾²Ì¬·½·¨£¬¸ü°²È«
+Èç¹ûÊ¹ÓÃÁËgetDerivedStateFromProps¹³×Ó£¬ÕâÈı¸ö¹³×Ó½«ÎŞĞ§
 
 ***************
 ¸ÃÏîÄ¿ÒÅÁôÎÊÌâ£ºcss in jsÈÈ¸üĞÂÎŞĞ§
